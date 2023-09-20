@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Real-Time Products</title>
+</head>
+<body>
+    <h1>Real-Time Products</h1>
+    <ul id="product-list">
+        {{#each products}}
+        <li>
+            <strong>{{title}}</strong>
+            <p>Description: {{description}}</p>
+            <p>Code: {{code}}</p>
+            <p>Price: ${{price}}</p>
+            <p>Stock: {{stock}}</p>
+            <p>Category: {{category}}</p>
+            <p>Thumbnails: {{thumbnails}}</p>
+        </li>
+        {{/each}}
+    </ul>
+   <script>
+  const socket = io.connect(); 
+  
+  socket.on('productosActualizados', (products) => {
+    const productList = document.getElementById('product-list');
+    productList.innerHTML = ''; 
+
+    products.forEach((product) => {
+     
+      const listItem = document.createElement('li');
+      listItem.innerHTML = `
+        <strong>${product.title}</strong>
+        <p>Description: ${product.description}</p>
+        <p>Code: ${product.code}</p>
+        <p>Price: $${product.price}</p>
+        <p>Stock: ${product.stock}</p>
+        <p>Category: ${product.category}</p>
+        <p>Thumbnails: ${product.thumbnails}</p>
+      `;
+      productList.appendChild(listItem);
+    });
+  });
+</script> 
+</body>
+</html>
